@@ -1,0 +1,31 @@
+- if flash[:notice]
+  %p zomg uploaded
+
+%p make a lol today
+%form{:method => 'post', :action => '/', :enctype => "multipart/form-data"}
+  %label
+    First Panel
+    %input{:type => 'file', :name => 'first_panel'}
+
+  %label
+    Second Panel
+    %select{:name => 'second_panel'}
+      %option disappointment
+      %option euphoria
+
+  %label
+    Third Panel
+    %input{:type => 'file', :name => 'third_panel'}
+
+  %label
+    Fourth Panel
+    %select{:name => 'fourth_panel'}
+      %option euphoria
+      %option disappointment
+
+  %input{:type => 'submit'}
+
+- if session[:uploaded_id]
+  %p your last upload
+  %img{:src => "/uploads/#{session[:uploaded_id]}"}
+
