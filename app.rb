@@ -1,6 +1,8 @@
 require 'sinatra/base'
 
 class ForTehLols < Sinatra::Base
+  #set :public, Pathname.new(__FILE__).dirname.join('public')
+
   get '/' do
     haml :index 
   end

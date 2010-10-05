@@ -1,31 +1,49 @@
-- if flash[:notice]
-  %p zomg uploaded
+%html
+  %head
+    %link{:rel => 'stylesheet', :type => 'text/css', :href => '/stylesheets/reset.css'}
+    %link{:rel => 'stylesheet', :type => 'text/css', :href => '/stylesheets/defaults.css'}
+    %link{:rel => 'stylesheet', :type => 'text/css', :href => '/stylesheets/type.css'}
+    %link{:rel => 'stylesheet', :type => 'text/css', :href => '/stylesheets/forms.css'}
+    %link{:rel => 'stylesheet', :type => 'text/css', :href => '/stylesheets/tables.css'}
+    %link{:rel => 'stylesheet', :type => 'text/css', :href => '/stylesheets/lists.css'}
+    %link{:rel => 'stylesheet', :type => 'text/css', :href => '/stylesheets/screen.css'}
+  %body
+    .content
+      %h2
+        %a{:href => "http://knowyourmeme.com/memes/reaction-guys-gaijin-4koma"}
+          Reaction Guys/ Gaijin 4Koma
+      %form{:method => 'post', :action => '/', :enctype => "multipart/form-data"}
+        %fieldset.inputs
+          %ol
+            %li.file
+              %label{:for => 'first_panel'} First Panel
+              %input{:type => 'file', :name => 'first_panel', :size => 30}
 
-%p make a lol today
-%form{:method => 'post', :action => '/', :enctype => "multipart/form-data"}
-  %label
-    First Panel
-    %input{:type => 'file', :name => 'first_panel'}
+            %li.select
+              %label{:for => 'second_panel'} Second Panel
+              %select{:name => 'second_panel'}
+                %option disappointment
+                %option euphoria
 
-  %label
-    Second Panel
-    %select{:name => 'second_panel'}
-      %option disappointment
-      %option euphoria
+            %li.file
+              %label{:for => 'third_panel'} Third Panel
+              %input{:type => 'file', :name => 'third_panel', :size => 30}
 
-  %label
-    Third Panel
-    %input{:type => 'file', :name => 'third_panel'}
+            %li.select
+              %label{:for => 'fourth_panel'} Fourth Panel
+              %select{:name => 'fourth_panel'}
+                %option euphoria
+                %option disappointment
+        %fieldset.buttons
+          %ol
+            %li.commit
+              %input{:type => 'submit', :value => "Upload"}
 
-  %label
-    Fourth Panel
-    %select{:name => 'fourth_panel'}
-      %option euphoria
-      %option disappointment
 
-  %input{:type => 'submit'}
+      - if flash[:notice]
+        .notice= flash[:notice]
 
-- if session[:uploaded_id]
-  %p your last upload
-  %img{:src => "/uploads/#{session[:uploaded_id]}"}
+      - if session[:uploaded_id]
+        %h3 your last upload
+        %img{:src => "/uploads/#{session[:uploaded_id]}"}
 
