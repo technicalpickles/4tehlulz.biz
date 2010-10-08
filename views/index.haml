@@ -43,7 +43,7 @@
       - if flash[:notice]
         .notice= flash[:notice]
 
-      - if session[:uploaded_id]
+      - if @last_lulz
         %h3 your last upload
-        %img{:src => "/uploads/#{session[:uploaded_id]}"}
+        %img{:src => "/uploads/#{@last_lulz.id}"}
 

@@ -1,15 +1,38 @@
 require 'sinatra/base'
+require 'sinatra/mongomapper'
+require 'joint'
+
+require 'tempfile'
+
+class Lulz
+  include MongoMapper::Document
+  plugin Joint
+
+  attachment :result
+end
+
+Joint::AttachmentProxy.class_eval do
+  def each
+    while buf = read(8192)
+      yield buf
+    end
+  end
+end
+
+set :mongomapper, 'mongomapper://localhost:27017/4tehlulz'
 
 class ForTehLols < Sinatra::Base
-  #set :public, Pathname.new(__FILE__).dirname.join('public')
+  # Specify the database to use. *Required*
 
   get '/' do
+    @last_lulz = Lulz.find_by_id(session[:last_lulz_id]) if session[:last_lulz_id]
     haml :index 
   end
 
   get '/uploads/:upload' do
     content_type 'image/jpeg'
-    send_file "system/#{params[:upload]}.jpg"
+    lulz = Lulz.find_by_id(params[:upload])
+    halt lulz.result
   end
 
   post '/' do
@@ -19,12 +42,16 @@ class ForTehLols < Sinatra::Base
     fourth_panel = gallery_path(params[:fourth_panel])
 
     timestamp = Time.now.strftime("%y%m%d%H%M")
-    command = "montage '#{first_panel}' '#{second_panel}' '#{third_panel}' '#{fourth_panel}' -background '#000000' -geometry '+0+0' -tile 1 'system/#{timestamp}.jpg'"
-    
+
+    result = Tempfile.new('montage')
+    command = "montage '#{first_panel}' '#{second_panel}' '#{third_panel}' '#{fourth_panel}' -background '#000000' -geometry '+0+0' -tile 1 '#{result.path}'"
     system command
 
+    lulz = Lulz.create! :result => result
+
+
     flash[:notice] = "Uploaded!"
-    session[:uploaded_id] = timestamp
+    session[:last_lulz_id] = lulz.id
     redirect "/"
   end
 
