@@ -19,12 +19,41 @@ Joint::AttachmentProxy.class_eval do
   end
 end
 
+class Montage
+  attr_accessor :paths
+
+  def initialize(*paths)
+    @paths = paths
+  end
+
+  def go!
+    result = Tempfile.new('montage')
+
+    quoted_paths = paths.map do |path|
+      %Q{'#{path}'}
+    end
+
+    quoted_result_path = %Q{'#{result.path}'}
+
+    command = "montage %s -background '#000000' -geometry '+0+0' -tile 1 %s" % [quoted_paths.join(' '), quoted_result_path]
+    system command
+
+    result
+  end
+
+  def self.go!(*paths)
+    new(*paths).go!
+  end
+
+end
+
+# Specify the database to use. *Required*
 set :mongomapper, 'mongomapper://localhost:27017/4tehlulz'
 
 class ForTehLols < Sinatra::Base
-  # Specify the database to use. *Required*
 
   get '/' do
+    @lulz = Lulz.all
     @last_lulz = Lulz.find_by_id(session[:last_lulz_id]) if session[:last_lulz_id]
     haml :index 
   end
@@ -32,7 +61,8 @@ class ForTehLols < Sinatra::Base
   get '/uploads/:upload' do
     content_type 'image/jpeg'
     lulz = Lulz.find_by_id(params[:upload])
-    halt lulz.result
+
+    lulz.result
   end
 
   post '/' do
@@ -41,14 +71,8 @@ class ForTehLols < Sinatra::Base
     third_panel = newly_uploaded_path(params[:third_panel])
     fourth_panel = gallery_path(params[:fourth_panel])
 
-    timestamp = Time.now.strftime("%y%m%d%H%M")
-
-    result = Tempfile.new('montage')
-    command = "montage '#{first_panel}' '#{second_panel}' '#{third_panel}' '#{fourth_panel}' -background '#000000' -geometry '+0+0' -tile 1 '#{result.path}'"
-    system command
-
-    lulz = Lulz.create! :result => result
-
+    montage = Montage.go! first_panel, second_panel, third_panel, fourth_panel
+    lulz = Lulz.create! :result => montage
 
     flash[:notice] = "Uploaded!"
     session[:last_lulz_id] = lulz.id

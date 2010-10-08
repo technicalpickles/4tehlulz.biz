@@ -47,3 +47,9 @@
         %h3 your last upload
         %img{:src => "/uploads/#{@last_lulz.id}"}
 
+      %h3 all lulz
+      %ul
+      - @lulz.each do |lulz|
+        %li
+          %a{:href => "/uploads/#{lulz.id}"}= lulz.id
+
