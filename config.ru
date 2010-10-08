@@ -6,4 +6,4 @@ require '4tehlulz'
 
 use Rack::Session::Cookie
 use Rack::Flash, :accessorize => [:notice, :error]
-run ForTehLols
+run ForTehLulz::App
