@@ -7,6 +7,8 @@
     %link{:rel => 'stylesheet', :type => 'text/css', :href => '/stylesheets/tables.css'}
     %link{:rel => 'stylesheet', :type => 'text/css', :href => '/stylesheets/lists.css'}
     %link{:rel => 'stylesheet', :type => 'text/css', :href => '/stylesheets/screen.css'}
+    %script{:type => 'javascript', :src => '/javascripts/jquery-1.4.2.min.js'}
+    %script{:type => 'javascript', :src => '/javascripts/4tehlulz.js'}
   %body
     .content
       %h2
@@ -45,11 +47,14 @@
 
       - if @last_lulz
         %h3 your last upload
-        %img{:src => "/uploads/#{@last_lulz.id}"}
+        %img{:src => @last_lulz.imgur_url}
 
       %h3 all lulz
       %ul
-      - @lulz.each do |lulz|
-        %li
-          %a{:href => "/uploads/#{lulz.id}"}= lulz.id
+        - @lulz.each do |lulz|
+          %li
+            - if lulz.imgur_url
+              %a{:href => lulz.imgur_url}= lulz.id
+            - else
+              %a{:href => "/uploads/#{lulz.id}"}= lulz.id
 
