@@ -1,0 +1,22 @@
+:ruby: ree187
+:application: 4tehlulz
+:user: ubuntu
+
+:deploy_to: /srv/4tehlulz.biz
+:domain: 4tehlulz.biz
+
+:scm: none
+:deploy_via: copy
+:repository: .
+
+:shared_children:
+- system
+- log
+- pids
+- config
+
+:passenger:
+  :max_pool_size: 3
+
+:mysql:
+  :innodb_buffer_pool_size: 128M
