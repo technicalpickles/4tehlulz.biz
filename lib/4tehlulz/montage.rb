@@ -1,3 +1,5 @@
+require 'tempfile'
+
 module ForTehLulz
   class Montage
     attr_accessor :paths

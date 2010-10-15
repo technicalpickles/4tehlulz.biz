@@ -1,21 +1,9 @@
 require 'sinatra/base'
 require 'sinatra/mongomapper'
-require 'joint'
 require 'imgur'
 
-require 'tempfile'
-
-require '4tehlulz/extensions'
+require 'lulz'
 require '4tehlulz/montage'
-
-class Lulz
-  include MongoMapper::Document
-  plugin Joint
-
-  key :imgur_url, String
-
-  attachment :result
-end
 
 # Specify the database to use. *Required*
 set :mongomapper, "mongomapper://localhost:27017/4tehlulz_#{ENV['RACK_ENV']}"
