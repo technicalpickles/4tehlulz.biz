@@ -1,6 +1,7 @@
-require 'sinatra'
-require 'rack-flash'
+require 'bundler'
+Bundler.require
 
+require 'rack-flash'
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/lib"
 require '4tehlulz'
 
