@@ -18,7 +18,7 @@ class Lulz
 end
 
 # Specify the database to use. *Required*
-set :mongomapper, 'mongomapper://localhost:27017/4tehlulz'
+set :mongomapper, "mongomapper://localhost:27017/4tehlulz_#{ENV['RACK_ENV']}"
 
 module ForTehLulz
   class App < Sinatra::Base
@@ -44,10 +44,10 @@ module ForTehLulz
 
       montage = Montage.go! first_panel, second_panel, third_panel, fourth_panel
 
-      imgur = Imgur::API.new('73c65910d8f5fe205d986b8b9f932ea0')
-      uploaded_image = imgur.upload_file(montage.path)
+      #imgur = Imgur::API.new('73c65910d8f5fe205d986b8b9f932ea0')
+      #uploaded_image = imgur.upload_file(montage.path)
 
-      lulz = Lulz.create! :result => montage, :imgur_url => uploaded_image['original_image']
+      lulz = Lulz.create! :result => montage #, :imgur_url => uploaded_image['original_image']
 
       flash[:notice] = "Uploaded!"
       session[:last_lulz_id] = lulz.id

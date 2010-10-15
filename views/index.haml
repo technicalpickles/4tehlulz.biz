@@ -47,13 +47,17 @@
 
       - if @last_lulz
         %h3 your last upload
-        %img{:src => @last_lulz.imgur_url}
+        - if @last_lulz.imgur_url?
+          %img{:src => @last_lulz.imgur_url}
+        - else
+          %img{:src => "/uploads/#{@last_lulz.id}"}
+
 
       %h3 all lulz
       %ul
         - @lulz.each do |lulz|
           %li
-            - if lulz.imgur_url
+            - if lulz.imgur_url?
               %a{:href => lulz.imgur_url}= lulz.id
             - else
               %a{:href => "/uploads/#{lulz.id}"}= lulz.id
