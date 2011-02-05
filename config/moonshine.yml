@@ -1,6 +1,6 @@
 :ruby: ree187
 :application: 4tehlulz
-:user: ubuntu
+:user: rails
 
 :deploy_to: /srv/4tehlulz.biz
 :domain: 4tehlulz.biz
