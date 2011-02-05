@@ -5,9 +5,7 @@
 :deploy_to: /srv/4tehlulz.biz
 :domain: 4tehlulz.biz
 
-:scm: none
-:deploy_via: copy
-:repository: .
+:repository: git@github.com:technicalpickles/4tehlulz.biz.git
 
 :shared_children:
 - system
